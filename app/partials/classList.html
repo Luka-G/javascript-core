@@ -1,5 +1,14 @@
 <div class="class-list-container" ng-controller="ClassListController as list">
 	<ul class="list-group istsos-list">
-		<li class="list-group-item" ng-repeat="data in list.classes track by $index" style="cursor:pointer" ng-click="list.goTo('class', data)">{{data.name}}</li>
+		<li class="list-group-item" ng-click="list.goToRoot()" style="cursor:pointer" ><strong>HOME</strong></li>
+		<li class="list-group-item" ng-repeat="data in list.classes track by $index" style="cursor:pointer" ng-click="list.goTo('class', data); list.handleCollaspes($index)">{{data.name}}
+		<div ng-init="list.isCollapsed[$index] = true" class="collapse" uib-collapse="list.isCollapsed[$index]">
+			<hr clas="hr-list"/>
+			<ul class="list-group sub-istsos-list">
+				<li ng-repeat="method in data.methods"><span class="glyphicon glyphicon-asterisk"></span><span class="methods"><code>{{method.name}}</code></span></li>
+			</ul>
+		</ul>
+		</div>
+		</li>
 	</ul>
 </div>

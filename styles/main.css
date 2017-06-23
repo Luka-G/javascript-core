@@ -1,3 +1,7 @@
+html,body {
+	font-family: 'Montserrat', sans-serif;
+}
+
 h3 {
 	background: #19B019;
 	color: white;
@@ -14,19 +18,32 @@ th {
 	font-weight: bold;
 }
 
+h3.home-h3 {
+	color: #19B019;
+	padding: 0;
+	background: transparent;
+}
+
+.home-code {
+	padding: 15px;
+	color: #004106;
+	background: #F6F8FA;
+	white-space: nowrap;
+	overflow-x: auto;
+}
+
 .jumbotron {
 	background: #19B019 !important; 
 	color: white !important;
 	border-radius: 0 !important;
 }
 
-.istsos-list, .istsos-list li {
+.methods code{
+	color: #19B019 !important;
+}
+
+.istsos-list, .istsos-list>li {
 	background: white !important;
 	color: #19B019 !important;
 	border-radius: 0 !important;
-}
-
-.istsos-list li:hover {
-	background: #19B019 !important;
-	color: white !important;
 }

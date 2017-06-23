@@ -1,6 +1,16 @@
 angular.module('app')
-	.controller('ClassListController', function($state) {
+	.controller('ClassListController', function($state, $timeout) {
 		var list = this;
+		$timeout(function() {
+			$state.go('root')
+		})
+
+		list.handleCollaspes = function (index) {
+			for(c in list.isCollapsed) {
+				list.isCollapsed[c] = true;
+			}
+			list.isCollapsed[index] = !list.isCollapsed[index]; 
+		}
 
 		list.classes = [{
 			name: 'istsos.ServerContainer',
@@ -308,7 +318,7 @@ angular.module('app')
 				return: 'Promise',
 				fires: '\'UPDATE_DATABASE\''
 			}, {
-				name: 'ValidateDb',
+				name: 'validateDb',
 				paramList: 'server',
 				params: [{
 					name: 'server',
@@ -327,22 +337,410 @@ angular.module('app')
 			}]
 		}, {
 			name: 'istsos.Configuration',
-			description: 'Here goes class description',
+			superClass: 'istsos.EventEmitter',
+			description: 'Class for instantiating istsos.Database objects, which hold database connection parameters',
 			params: [{
 				param: 'options',
 				type: 'Object',
-				description: 'param description',
-				props: {}
+				description: 'Configuration object',
+				props: [{
+					name: 'serviceName',
+					type: 'String',
+					description: 'Service name. If not provided, value "default", will be used.'
+				}, {
+					name: 'server',
+					type: 'istsos.Server',
+					description: 'istsos.Server instance'
+				}]
+			}],
+			fields: [{
+				name: 'events',
+				type: 'Object => INHERITED'
+			}, {
+				name: 'serviceName',
+				type: 'String'
+			}, {
+				name: 'server',
+				type: 'istsos.Server'
+			}],
+			methods: [{
+				name: 'fireEvent',
+				paramList: 'eventType, response',
+				params: [{
+					name: 'eventType',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'response',
+					type: 'Object | *',
+					description: 'Data that will be passed to the handler',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'on',
+				paramList: 'event, callback',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'callback',
+					type: 'String',
+					description: 'Event handler callback function',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'once',
+				paramList: 'event, callback',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'callback',
+					type: 'String',
+					description: 'Event handler callback function',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'off',
+				paramList: 'event, callback',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'callback',
+					type: 'String',
+					description: 'Event handler callback function',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'unlistenAll',
+				paramList: '',
+				params: [],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'getConf',
+				paramList: '',
+				params: [],
+				return: 'Promise',
+				fires: '\'CONFIGSECTIONS\''
+			}, {
+				name: 'getProvider',
+				paramList: '',
+				params: [],
+				return: 'Promise',
+				fires: '\'PROVIDER\''
+			}, {
+				name: 'updateProvider',
+				paramList: 'options',
+				params: [{
+					name: 'options',
+					type: 'Object',
+					description: 'Object which contains new provider information',
+					props: [{
+						name: 'providername',
+						type: 'String',
+						description: 'Provider name'
+					}, {
+						name: 'providersite',
+						type: 'String',
+						description: 'Provider site'
+					}, {
+						name: 'contactname',
+						type: 'String',
+						description: 'Contact name'
+					}, {
+						name: 'contactposition',
+						type: 'String',
+						description: 'Contact position'
+					}, {
+						name: 'contactvoice',
+						type: 'String',
+						description: 'Contact voice'
+					}, {
+						name: 'contactfax',
+						type: 'String',
+						description: 'Contact fax'
+					}, {
+						name: 'contactemail',
+						type: 'String',
+						description: 'Contact email'
+					}, {
+						name: 'contactdeliverypoint',
+						type: 'String',
+						description: 'Contact delivery point'
+					}, {
+						name: 'contactpostalcode',
+						type: 'String',
+						description: 'Postal code'
+					}, {
+						name: 'contactcity',
+						type: 'String',
+						description: 'City'
+					}, {
+						name: 'contactadminarea',
+						type: 'String',
+						description: 'Administrative area'
+					}, {
+						name: 'contactcountry',
+						type: 'String',
+						description: 'Country'
+					}]
+				}],
+				return: 'Promise',
+				fires: '\'UPDATE_PROVIDER\''
+			}, {
+				name: 'getIdentification',
+				paramList: '',
+				params: [],
+				return: 'Promise',
+				fires: '\'IDENTIFICATION\''
+			}, {
+				name: 'updateIdentification',
+				paramList: 'options',
+				params: [{
+					name: 'options',
+					type: 'Object',
+					description: 'Object which contains new identification information',
+					props: [{
+						name: 'title',
+						type: 'String',
+						description: 'Title'
+					}, {
+						name: 'abstract',
+						type: 'String',
+						description: 'Abstract'
+					}, {
+						name: 'urnversion',
+						type: 'String',
+						description: 'URN version'
+					}, {
+						name: 'authority',
+						type: 'String',
+						description: 'Authority'
+					}, {
+						name: 'fees',
+						type: 'String',
+						description: 'Fees'
+					}, {
+						name: 'keywords',
+						type: 'String',
+						description: 'Keywords'
+					}, {
+						name: 'accessconstrains',
+						type: 'String',
+						description: 'Access constrains'
+					}]
+				}],
+				return: 'Promise',
+				fires: '\'UPDATE_IDENTIFICATION\''
+			}, {
+				name: 'getMqtt',
+				paramList: '',
+				params: [],
+				return: 'Promise',
+				fires: '\'MQTT\''
+			}, {
+				name: 'updateMqtt',
+				paramList: 'options',
+				params: [{
+					name: 'options',
+					type: 'Object',
+					description: 'Object which contains new mqtt information',
+					props: [{
+						name: 'brokerpassword',
+						type: 'String',
+						description: 'Broker password'
+					}, {
+						name: 'brokeruser',
+						type: 'String',
+						description: 'Broker user'
+					}, {
+						name: 'brokertopic',
+						type: 'String',
+						description: 'Broker topic'
+					}, {
+						name: 'brokerurl',
+						type: 'String',
+						description: 'Broker URL'
+					}, {
+						name: 'brokerport',
+						type: 'String',
+						description: 'Broker port'
+					}]
+				}],
+				return: 'Promise',
+				fires: '\'UPDATE_MQTT\''
+			}, {
+				name: 'getCrs',
+				paramList: '',
+				params: [],
+				return: 'Promise',
+				fires: '\'CRS\''
+			}, {
+				name: 'updateCrs',
+				paramList: 'options',
+				params: [{
+					name: 'options',
+					type: 'Object',
+					description: 'Object which contains new coordinate reference system information',
+					props: [{
+						name: 'zaxisname',
+						type: 'String',
+						description: 'z-axis name'
+					}, {
+						name: 'xaxisname',
+						type: 'String',
+						description: 'x axis name'
+					}, {
+						name: 'yaxisname',
+						type: 'String',
+						description: 'y-axis name'
+					}, {
+						name: 'allowedepsg',
+						type: 'String',
+						description: 'Allowed EPSG codes'
+					}, {
+						name: 'istsosepsg',
+						type: 'String',
+						description: 'IstSOS EPSG code'
+					}]
+				}],
+				return: 'Promise',
+				fires: '\'UPDATE_CRS\''
+			}, {
+				name: 'getObservationConf',
+				paramList: '',
+				params: [],
+				return: 'Promise',
+				fires: '\'OBSERVATION_CONF\''
+			}, {
+				name: 'updateObservationConf',
+				paramList: 'options',
+				params: [{
+					name: 'options',
+					type: 'Object',
+					description: 'Object which contains new observation configuration information',
+					props: [{
+						name: 'correct_qi',
+						type: 'String',
+						description: 'Correct QI'
+					}, {
+						name: 'stat_qi',
+						type: 'String',
+						description: 'StatQI'
+					}, {
+						name: 'defaultqi',
+						type: 'String',
+						description: 'Default QI'
+					}, {
+						name: 'aggregatenodataqi',
+						type: 'String',
+						description: 'Aggregate NO_DATA QI'
+					}, {
+						name: 'maxgoperiod',
+						type: 'String',
+						description: 'Max GO period'
+					}, {
+						name: 'transactional_log',
+						type: 'String',
+						description: 'Transational log'
+					}, {
+						name: 'aggregatenodata',
+						type: 'String',
+						description: 'Aggregate NO_DATA'
+					}]
+				}],
+				return: 'Promise',
+				fires: '\'UPDATE_OBSERVATION_CONF\''
+			}, {
+				name: 'getProxy',
+				paramList: '',
+				params: [],
+				return: 'Promise',
+				fires: '\'PROXY\''
+			}, {
+				name: 'updateProxy',
+				paramList: 'newUrl',
+				params: [{
+					name: 'newUrl',
+					type: 'String',
+					description: 'New proxy URL',
+					props: []
+				}],
+				return: 'Promise',
+				fires: '\'UPDATE_PROXY\''
+			}, {
+				name: 'getEpsgCodes',
+				paramList: '',
+				params: [],
+				return: 'Promise',
+				fires: '\'EPSG_CODES\''
 			}]
 		}, {
 			name: 'istsos.Server',
-			description: 'Here goes class description',
+			superClass: 'istsos.EventEmitter',
+			description: 'Class for instantiating istsos.Server objects, which contain list of services and information about the server.',
 			params: [{
 				param: 'options',
 				type: 'Object',
-				description: 'param description',
-				props: {}
-			}]
+				description: 'Server configuration object',
+				props: [{
+					name: 'name',
+					type: 'String',
+					description: 'Server name'
+				},{
+					name: 'url',
+					type: 'String',
+					description: 'Server URL - i.e. \'http://<server>/istsos/\''
+				},{
+					name: 'defaultDb',
+					type: 'istsos.Database',
+					description: 'istsos.Database instance'
+				},{
+					name: 'config',
+					type: 'istsos.Configuraion',
+					description: 'istsos.Configuration instance. If not provided, new instance with default serviceName will be created.'
+				}]
+			}],
+			fields: [{
+				name: 'events',
+				type: 'Object => INHERITED'
+			},{
+				name: 'name',
+				type: 'String'
+			},{
+				name: 'url',
+				type: 'String'
+			},{
+				name: 'defaultDb',
+				type: 'istsos.Database'
+			},{
+				name: 'config',
+				type: 'istsos.Configuration'
+			},{
+				name: 'loginConfig',
+				type: 'Object'
+			},{
+				name: 'services',
+				type: 'Array<istsos.Service>'
+			}],
+			methods: []
 		}, {
 			name: 'istsos.Service',
 			description: 'Here goes class description',
@@ -458,5 +856,12 @@ angular.module('app')
 				class: data.name,
 				data: data
 			})
+		}
+
+		list.goToRoot = function() {
+			for(c in list.isCollapsed) {
+				list.isCollapsed[c] = true;
+			}
+			$state.go('root')
 		}
 	})

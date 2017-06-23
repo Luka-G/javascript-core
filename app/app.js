@@ -1,27 +1,27 @@
 angular.module('app', ['ngAnimate', 'ui.bootstrap', 'ui.router'])
-	.run(function($state) {
-		$state.go('root')
-	})
-	.controller('AppController', function() {
-		var app = this;
-	})
 
-	.config(function($stateProvider) {
-		var rootState = {
-			name: 'root',
-			url: '/'
-		}
+.controller('AppController', function() {
+	var app = this;
+})
 
-		var classState = {
-			name: 'class',
-			url: '/class/{class}',
-			params: {
-				class: null,
-				data: null
-			},
-			templateUrl: 'app/partials/content.html'
-		}
+.config(function($stateProvider) {
 
-		$stateProvider.state(classState);
-		$stateProvider.state(rootState);
-	})
+	var rootState = {
+		name: 'root',
+		url: '/',
+		templateUrl: 'app/partials/home.html'
+	}
+
+	var classState = {
+		name: 'class',
+		url: '/class/{class}',
+		params: {
+			class: null,
+			data: null
+		},
+		templateUrl: 'app/partials/content.html'
+	}
+
+	$stateProvider.state(classState);
+	$stateProvider.state(rootState);
+})
