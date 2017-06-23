@@ -1,0 +1,27 @@
+{
+  "name": "javascript-core",
+  "version": "1.0.0",
+  "description": "Github pages for IstSOS JavaScript core library",
+  "main": "index.js",
+  "dependencies": {
+    "angular": "^1.6.4",
+    "angular-animate": "^1.6.4",
+    "angular-bootstrap": "^0.12.2",
+    "angular-ui-router": "^1.0.3",
+    "bootstrap": "^3.3.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Luka-G/javascript-core.git"
+  },
+  "author": "Luka Glusica",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Luka-G/javascript-core/issues"
+  },
+  "homepage": "https://github.com/Luka-G/javascript-core#readme"
+}
