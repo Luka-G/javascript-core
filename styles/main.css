@@ -1,0 +1,32 @@
+h3 {
+	background: #19B019;
+	color: white;
+	padding: 4px;
+	border-radius: 5px;
+}
+
+ h4 {
+	font-style: italic;
+	color: #19B019;
+}
+
+th {
+	font-weight: bold;
+}
+
+.jumbotron {
+	background: #19B019 !important; 
+	color: white !important;
+	border-radius: 0 !important;
+}
+
+.istsos-list, .istsos-list li {
+	background: white !important;
+	color: #19B019 !important;
+	border-radius: 0 !important;
+}
+
+.istsos-list li:hover {
+	background: #19B019 !important;
+	color: white !important;
+}

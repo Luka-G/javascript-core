@@ -1,4 +1,103 @@
-<div>
-	
-	TEST
+<div ng-controller="ContentController as content">
+	<div ng-show="content.data !== null">
+		<h3><strong>Class</strong></h3>
+		<h4><strong>{{content.name}}</strong></h4>
+		<h5 ng-show="content.superClass != ''"><strong><code style="color: #3D8ACC">EXTENDS: {{content.superClass}}</code></strong></h5>
+		<p>{{content.description}}</p>
+		<hr/>
+		<h3><strong>Constructor</strong></h3>
+		<h4><strong><span style="color: #C7254E">new</span> {{content.name}}(<span style="color: orange">{{content.paramList}}</span>)</strong></h4>
+		
+		<!-- PARAMS TABLE -->
+		<table ng-show="content.params.length > 0" class="table">
+			<thead >
+				<tr>
+					<th>Parameter</th>
+					<th>Type</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="param in content.params track by $index">
+					<td><code>{{param.param}}</code></td>
+					<td colspan="2">
+						<p><code style="color: #3D8ACC">{{param.type}}</code></p>
+						<table class="table">
+							<thead>
+								<th>Property</th>
+								<th>Type</th>
+								<th>Description</th>
+							</thead>
+							<tbody>
+								<tr ng-repeat="prop in param.props track by $index">
+									<td><code>{{prop.name}}</code></td>
+									<td><code style="color: #3D8ACC">{{prop.type}}</code></td>
+									<td>{{prop.description}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<!-- PARAMS END -->
+		<h3><strong>Fields</strong></h3>
+		<table style="width: 70%" ng-show="content.fields.length > 0" class="table">
+			<thead>
+				<tr>
+					<th>Field</th>
+					<th>Type</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="field in content.fields track by $index">
+					<td><code>{{field.name}}</code></td>
+					<td><code style="color: #3D8ACC">{{field.type}}</code></td>
+				</tr>
+			</tbody>
+		</table>
+		<h3><strong>Methods</strong></h3>
+		<div ng-show="content.methods.length > 0" ng-repeat="method in content.methods track by $index">
+			<div ng-init="isCollapsed[$index] = true"></div>
+			<h4 style="cursor: pointer;" ng-click="isCollapsed[$index] = !isCollapsed[$index]; log()">
+			<strong>{{method.name}}(<span  style="color: orange">{{method.paramList}}</span>)</strong>
+			</h4>
+			&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;RETURNS&nbsp;<code style="color: #3D8ACC">{{method.return}}</code>
+			<div ng-show="method.fires != ''">
+				&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;FIRES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code style="color: #3D8ACC">{{method.fires}}</code>
+			</div>
+			<div class="collapse" uib-collapse="isCollapsed[$index]">
+				<table ng-show="method.params.length > 0" class="table">
+					<thead >
+						<tr>
+							<th>Parameter</th>
+							<th>Type</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="param in method.params track by $index">
+							<td><code>{{param.name}}</code></td>
+							<td colspan="2">
+								<p><code  style="color: #3D8ACC">{{param.type}}</code> - {{param.description}}</p>
+								<table ng-show="param.props.length > 0" class="table">
+									<thead>
+										<th>Property</th>
+										<th>Type</th>
+										<th>Description</th>
+									</thead>
+									<tbody>
+										<tr ng-repeat="prop in param.props track by $index">
+											<td><code>{{prop.name}}</code></td>
+											<td><code style="color: #3D8ACC">{{prop.type}}</code></td>
+											<td>{{prop.description}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<hr/>
+		</div>
+	</div>
 </div>

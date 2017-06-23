@@ -1,5 +1,5 @@
-<div ng-controller="ClassListController as list">
-	<ul class="list-group">
-		<li class="list-group-item" ng-repeat="class in list.classes track by $index" style="cursor:pointer" ng-click="list.goTo('class', class)">{{class}}</li>
+<div class="class-list-container" ng-controller="ClassListController as list">
+	<ul class="list-group istsos-list">
+		<li class="list-group-item" ng-repeat="data in list.classes track by $index" style="cursor:pointer" ng-click="list.goTo('class', data)">{{data.name}}</li>
 	</ul>
 </div>
