@@ -5,11 +5,11 @@ angular.module('app')
 			$state.go('root')
 		})
 
-		list.handleCollaspes = function (index) {
-			for(c in list.isCollapsed) {
+		list.handleCollaspes = function(index) {
+			for (c in list.isCollapsed) {
 				list.isCollapsed[c] = true;
 			}
-			list.isCollapsed[index] = !list.isCollapsed[index]; 
+			list.isCollapsed[index] = !list.isCollapsed[index];
 		}
 
 		list.classes = [{
@@ -144,7 +144,7 @@ angular.module('app')
 		}, {
 			name: 'istsos.Database',
 			superClass: 'istsos.EventEmitter',
-			description: 'Class for instantiating istsos.Database objects, which hold database connection parameters',
+			description: 'Class for instantiating istsos.Database objects, which contain database connection parameters',
 			params: [{
 				param: 'options',
 				type: 'Object',
@@ -704,15 +704,15 @@ angular.module('app')
 					name: 'name',
 					type: 'String',
 					description: 'Server name'
-				},{
+				}, {
 					name: 'url',
 					type: 'String',
 					description: 'Server URL - i.e. \'http://<server>/istsos/\''
-				},{
+				}, {
 					name: 'defaultDb',
 					type: 'istsos.Database',
 					description: 'istsos.Database instance'
-				},{
+				}, {
 					name: 'config',
 					type: 'istsos.Configuraion',
 					description: 'istsos.Configuration instance. If not provided, new instance with default serviceName will be created.'
@@ -721,34 +721,513 @@ angular.module('app')
 			fields: [{
 				name: 'events',
 				type: 'Object => INHERITED'
-			},{
+			}, {
 				name: 'name',
 				type: 'String'
-			},{
+			}, {
 				name: 'url',
 				type: 'String'
-			},{
+			}, {
 				name: 'defaultDb',
 				type: 'istsos.Database'
-			},{
+			}, {
 				name: 'config',
 				type: 'istsos.Configuration'
-			},{
+			}, {
 				name: 'loginConfig',
 				type: 'Object'
-			},{
+			}, {
 				name: 'services',
 				type: 'Array<istsos.Service>'
 			}],
-			methods: []
+			methods: [{
+				name: 'fireEvent',
+				paramList: 'eventType, response',
+				params: [{
+					name: 'eventType',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'response',
+					type: 'Object | *',
+					description: 'Data that will be passed to the handler',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'on',
+				paramList: 'event, callback',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'callback',
+					type: 'String',
+					description: 'Event handler callback function',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'once',
+				paramList: 'event, callback',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'callback',
+					type: 'String',
+					description: 'Event handler callback function',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'off',
+				paramList: 'event, callback',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'callback',
+					type: 'String',
+					description: 'Event handler callback function',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'unlistenAll',
+				paramList: '',
+				params: [],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'setLoginConfig',
+				paramList: 'username, password',
+				params: [{
+					name: 'username',
+					type: 'String',
+					description: 'IstSOS server username',
+					props: []
+				}, {
+					name: 'password',
+					type: 'String',
+					description: 'IstSOS server password',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'removeLoginConfig',
+				paramList: '',
+				params: [],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'getLoginConfig',
+				paramList: '',
+				params: [],
+				return: 'Object',
+				fires: ''
+			}, {
+				name: 'getService',
+				paramList: 'service',
+				params: [{
+					name: 'service',
+					type: 'istsos.Service',
+					description: 'istsos.Service instance',
+					props: []
+				}],
+				return: 'Promise',
+				fires: '\'SERVICE\''
+			}, {
+				name: 'addService',
+				paramList: 'service',
+				params: [{
+					name: 'service',
+					type: 'istsos.Service',
+					description: 'istsos.Service instance',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'registerService',
+				paramList: 'service',
+				params: [{
+					name: 'service',
+					type: 'istsos.Service',
+					description: 'istsos.Service instance',
+					props: []
+				}],
+				return: 'Promise',
+				fires: '\'NEW_SERVICE\''
+			}, {
+				name: 'deleteService',
+				paramList: 'service',
+				params: [{
+					name: 'service',
+					type: 'istsos.Service',
+					description: 'istsos.Service instance',
+					props: []
+				}],
+				return: 'Promise',
+				fires: '\'DELETE_SERVICE\''
+			}, {
+				name: 'getStatus',
+				paramList: '',
+				params: [],
+				return: 'Promise',
+				fires: '\'STATUS\''
+			}, {
+				name: 'getAboutInfo',
+				paramList: '',
+				params: [],
+				return: 'Promise',
+				fires: '\'ABOUT\''
+			}, {
+				name: 'getConfig',
+				paramList: '',
+				params: [],
+				return: 'Promise',
+				fires: '\'CONFIGURATION\''
+			}, {
+				name: 'getConfigProperty',
+				paramList: '',
+				params: [],
+				return: 'istsos.Configuration',
+				fires: ''
+			}, {
+				name: 'getServices',
+				paramList: '',
+				params: [],
+				return: 'Promise',
+				fires: '\'SERVICES\''
+			}, {
+				name: 'getServicesProperty',
+				paramList: '',
+				params: [],
+				return: 'Array<istsos.Service>',
+				fires: ''
+			}, {
+				name: 'getDefaultDb',
+				paramList: '',
+				params: [],
+				return: 'Promise',
+				fires: '\'DATABASE\''
+			}, {
+				name: 'getDefaultDbProperty',
+				paramList: '',
+				params: [],
+				return: 'istsos.Database',
+				fires: ''
+			}, {
+				name: 'getUrl',
+				paramList: '',
+				params: [],
+				return: 'String',
+				fires: ''
+			}]
 		}, {
 			name: 'istsos.Service',
-			description: 'Here goes class description',
+			superClass: 'istsos.EventEmitter',
+			description: 'Class for instantiating istsos.Service objects. These objects can perform getObservation requests.When istsos.Service object is created, temporary offering (instance of istsos.Offering class with name "temporary") is created automatically.',
 			params: [{
 				param: 'options',
 				type: 'Object',
-				description: 'param description',
-				props: {}
+				description: 'Service configuration object',
+				props: [{
+					name: 'name',
+					type: 'String',
+					description: 'Service name'
+				}, {
+					name: 'otp_db',
+					type: 'istsos.Database',
+					description: 'istsos.Database istance. If not provided, server default database will be used'
+				}, {
+					name: 'opt_epsg',
+					type: 'integer',
+					description: 'EPSG code.If not provided, null value will be used.'
+				}, {
+					name: 'opt_config',
+					type: 'istsos.Configuraion',
+					description: 'istsos.Configuration instance. If not provided, new instance with this service name will be created.'
+				}, {
+					name: 'server',
+					type: 'istsos.Server',
+					description: 'istsos.Server instance'
+				}]
+			}],
+			fields: [{
+				name: 'events',
+				type: 'Object => INHERITED'
+			}, {
+				name: 'name',
+				type: 'String'
+			}, {
+				name: 'db',
+				type: 'istsos.Database'
+			}, {
+				name: 'epsg',
+				type: 'integer'
+			}, {
+				name: 'config',
+				type: 'istsos.Config'
+			}, {
+				name: 'server',
+				type: 'istsos.Server'
+			}, {
+				name: 'offerings',
+				type: 'Array<istsos.Offering>'
+			}, {
+				name: 'procedures',
+				type: 'Array<istsos.Procedure>'
+			}, {
+				name: 'virtualProcedures',
+				type: 'Array<istsos.VirtualProcedure>'
+			}, {
+				name: 'observedProperties',
+				type: 'Array<istsos.ObservedProperty>'
+			}, {
+				name: 'uoms',
+				type: 'Array<istsos.UnitOfMeasure>'
+			}, {
+				name: 'dataQualities',
+				type: 'Array<istsos.DataQuality>'
+			}],
+			methods: [{
+				name: 'fireEvent',
+				paramList: 'eventType, response',
+				params: [{
+					name: 'eventType',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'response',
+					type: 'Object | *',
+					description: 'Data that will be passed to the handler',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'on',
+				paramList: 'event, callback',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'callback',
+					type: 'String',
+					description: 'Event handler callback function',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'once',
+				paramList: 'event, callback',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'callback',
+					type: 'String',
+					description: 'Event handler callback function',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'off',
+				paramList: 'event, callback',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'callback',
+					type: 'String',
+					description: 'Event handler callback function',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'unlistenAll',
+				paramList: '',
+				params: [],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'getServiceJSON',
+				paramList: '',
+				params: [],
+				return: 'Object',
+				fires: ''
+			}, {
+				name: 'getOfferingsProperty',
+				paramList: '',
+				params: [],
+				return: 'Array<istsos.Offering>',
+				fires: ''
+			}, {
+				name: 'getProceduresProperty',
+				paramList: '',
+				params: [],
+				return: 'Array<istsos.Procedure>',
+				fires: ''
+			}, {
+				name: 'getVirtualProceduresProperty',
+				paramList: '',
+				params: [],
+				return: 'Array<istsos.VirtualProcedure>',
+				fires: ''
+			}, {
+				name: 'getObservedPropertiesProperty',
+				paramList: '',
+				params: [],
+				return: 'Array<istsos.ObservedProperty>',
+				fires: ''
+			}, {
+				name: 'getUomsProperty',
+				paramList: '',
+				params: [],
+				return: 'Array<istsos.UnitOfMeasure>',
+				fires: ''
+			}, {
+				name: 'getDataQualitiesProperty',
+				paramList: '',
+				params: [],
+				return: 'Array<istsos.DataQuality>',
+				fires: ''
+			}, {
+				name: 'addOffering',
+				paramList: 'offering',
+				params: [{
+					name: 'offering',
+					type: 'istsos.Offering',
+					description: 'istsos.Offering instance',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'registerOffering',
+				paramList: 'offering',
+				params: [{
+					name: 'offering',
+					type: 'istsos.Offering',
+					description: 'istsos.Offering instance',
+					props: []
+				}],
+				return: 'Promise',
+				fires: '\'NEW_OFFERING\''
+			}, {
+				name: 'getOfferingNames',
+				paramList: '',
+				params: [],
+				return: 'Promise',
+				fires: '\'OFFERING_NAMES\''
+			}, {
+				name: 'getOfferings',
+				paramList: '',
+				params: [],
+				return: 'Promise',
+				fires: '\'OFFERING_LIST\''
+			}, {
+				name: 'addProcedure',
+				paramList: 'procedure',
+				params: [{
+					name: 'procedure',
+					type: 'istsos.Procedure',
+					description: 'istsos.Procedure instance',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'registerProcedure',
+				paramList: 'procedure',
+				params: [{
+					name: 'procedure',
+					type: 'istsos.Procedure',
+					description: 'istsos.Procedure instance',
+					props: []
+				}],
+				return: 'Promise',
+				fires: '\'NEW_PROCEDURE\''
+			}, {
+				name: 'getProcedure',
+				paramList: '',
+				params: [{
+					name: 'procedure',
+					type: 'istsos.Procedure',
+					description: 'istsos.Procedure instance',
+					props: []
+				}],
+				return: 'Promise',
+				fires: '\'PROCEDURE\''
+			}, {
+				name: 'getProcedures',
+				paramList: '',
+				params: [],
+				return: 'Promise',
+				fires: '\'PROCEDURES\''
+			}, {
+				name: 'addVirtualProcedure',
+				paramList: 'v_procedure',
+				params: [{
+					name: 'v_procedure',
+					type: 'istsos.VirtualProcedure',
+					description: 'istsos.VirtualProcedure instance',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'registerProcedure',
+				paramList: 'v_procedure',
+				params: [{
+					name: 'v_procedure',
+					type: 'istsos.VirtualProcedure',
+					description: 'istsos.VirtualProcedure instance',
+					props: []
+				}],
+				return: 'Promise',
+				fires: '\'NEW_VIRTUAL_PROCEDURE\''
+			}, {
+				name: 'getVirtualProcedure',
+				paramList: 'v_procedure',
+				params: [{
+					name: 'v_procedure',
+					type: 'istsos.VirtualProcedure',
+					description: 'istsos.VirtualProcedure instance',
+					props: []
+				}],
+				return: 'Promise',
+				fires: '\'VIRTUAL_PROCEDURE\''
+			}, {
+				name: 'getVirtualProcedures',
+				paramList: '',
+				params: [],
+				return: 'Promise',
+				fires: '\'VIRTUAL_PROCEDURES\''
 			}]
 		}, {
 			name: 'istsos.Offering',
@@ -859,7 +1338,7 @@ angular.module('app')
 		}
 
 		list.goToRoot = function() {
-			for(c in list.isCollapsed) {
+			for (c in list.isCollapsed) {
 				list.isCollapsed[c] = true;
 			}
 			$state.go('root')
