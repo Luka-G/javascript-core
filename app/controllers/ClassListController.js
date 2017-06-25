@@ -2541,67 +2541,618 @@ angular.module('app')
 			}]
 		}, {
 			name: 'istsos.Output',
-			description: 'Here goes class description',
+			superClass: '',
+			description: 'Class for instantiating istsos.Output objects',
 			params: [{
 				param: 'options',
 				type: 'Object',
-				description: 'param description',
-				props: {}
+				description: 'Output configuration object',
+				props: [{
+					name: 'property',
+					type: 'istsos.ObservedProperty',
+					description: 'istsos.ObservedProperty instance'
+				}, {
+					name: 'uom',
+					type: 'istsos.UnitOfMeasure',
+					description: 'istsos.UnitOfMeasure instance'
+				}, {
+					name: 'description',
+					type: 'String',
+					description: 'Output description. If not provided, value "" will be used.'
+				}, {
+					name: 'opt_constraintType',
+					type: 'String',
+					description: 'Should equal "between", "lessThan", "greaterThan" or "valueList"'
+				}, {
+					name: 'opt_constraintValue',
+					type: 'Array<integer> | integer',
+					description: 'In case of "between" or "valueList" constraint types, this value should be of Array type. Otherwise integer is required.'
+				}]
+			}],
+			fields: [{
+				name: 'property',
+				type: 'istsos.ObservedProperty',
+			}, {
+				name: 'uom',
+				type: 'istsos.UnitOfMeasure',
+			}, {
+				name: 'description',
+				type: 'String',
+			}, {
+				name: 'constraint',
+				type: 'Object',
+			}],
+			methods: [{
+				name: 'getOutputJSON',
+				paramList: '',
+				params: [],
+				return: 'Object',
+				fires: ''
 			}]
 		}, {
 			name: 'istsos.ObservedProperty',
-			description: 'Here goes class description',
+			superClass: 'istsos.EventEmitter',
+			description: 'Class for instantiating istsos.ObservedProperty objects, which contain information about subject of observation',
 			params: [{
 				param: 'options',
 				type: 'Object',
-				description: 'param description',
-				props: {}
+				description: 'Observed property configuration object',
+				props: [{
+					name: 'service',
+					type: 'istsos.Service',
+					description: 'istsos.Service instance'
+				}, {
+					name: 'observedName',
+					type: 'String',
+					description: 'Name of the observed property'
+				}, {
+					name: 'definitionUrn',
+					type: 'String',
+					description: 'Observed property definition URN'
+				}, {
+					name: 'observedDescr',
+					type: 'String',
+					description: 'Observed property description'
+				}, {
+					name: 'opt_constraintType',
+					type: 'String',
+					description: 'Should equal "between", "lessThan", "greaterThan" or "valueList"'
+				}, {
+					name: 'opt_value',
+					type: 'Array<integer> | integer',
+					description: 'In case of "between" or "valueList" constraint types, this value should be of Array type. Otherwise integer is required.'
+				}]
+			}],
+			fields: [{
+				name: 'events',
+				type: 'Object => INHERITED'
+			}, {
+				name: 'service',
+				type: 'istsos.Service'
+			}, {
+				name: 'observedName',
+				type: 'String'
+			}, {
+				name: 'definitionUrn',
+				type: 'String'
+			}, {
+				name: 'observedDescr',
+				type: 'String'
+			}, {
+				name: 'constraint',
+				type: 'Object'
+			}, {
+				name: 'proceduresIncluded',
+				type: 'Array<istsos.Procedure | istsos.VirtualProcedure>'
+			}],
+			methods: [{
+				name: 'fireEvent',
+				paramList: 'eventType, response',
+				params: [{
+					name: 'eventType',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'response',
+					type: 'Object | *',
+					description: 'Data that will be passed to the handler',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'on',
+				paramList: 'event, callback',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'callback',
+					type: 'String',
+					description: 'Event handler callback function',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'once',
+				paramList: 'event, callback',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'callback',
+					type: 'String',
+					description: 'Event handler callback function',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'off',
+				paramList: 'event, callback',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'callback',
+					type: 'String',
+					description: 'Event handler callback function',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'unlistenAll',
+				paramList: '',
+				params: [],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'updateProceduresIncluded',
+				paramList: '',
+				params: [],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'getProceduresIncluded',
+				paramList: '',
+				params: [],
+				return: 'Array<istsos.Procedure | istsos.VirtualProcedure>',
+				fires: ''
+			}, {
+				name: 'getObservedPropertyJSON',
+				paramList: '',
+				params: [],
+				return: 'Object',
+				fires: ''
+			}, {
+				name: 'updateObservedProperty',
+				paramList: 'options',
+				params: [{
+					name: 'options',
+					type: 'Object',
+					description: 'Observed property configuration object',
+					props: [{
+						name: 'newPropertyName',
+						type: 'String',
+						description: 'New observed property name'
+					}, {
+						name: 'newDefinitionUrn',
+						type: 'String',
+						description: 'New observed property definition URN'
+					}, {
+						name: 'newPropertyDescr',
+						type: 'String',
+						description: 'New observed property description'
+					}, {
+						name: 'opt_constraintType',
+						type: 'String',
+						description: 'Should equal "between", "lessThan", "greaterThan" or "valueList"'
+					}, {
+						name: 'opt_value',
+						type: 'Array<integer> | integer',
+						description: 'In case of "between" or "valueList" constraint types, this value should be of Array type. Otherwise integer is required.'
+					}]
+				}],
+				return: 'Promise',
+				fires: '\'UPDATE_OBSERVED_PROPERTY\''
+			}, {
+				name: 'deleteObservedProperty',
+				paramList: '',
+				params: [],
+				return: 'Promise',
+				fires: '\'DELETE_OBSERVED_PROPERTY\''
 			}]
 		}, {
 			name: 'istsos.DataQuality',
-			description: 'Here goes class description',
+			superClass: 'istsos.EventEmitter',
+			description: 'Class for instantiating istsos.DataQuality objects, which contain information about data quality indexes',
 			params: [{
 				param: 'options',
 				type: 'Object',
-				description: 'param description',
-				props: {}
+				description: 'Observed property configuration object',
+				props: [{
+					name: 'service',
+					type: 'istsos.Service',
+					description: 'istsos.Service instance'
+				}, {
+					name: 'codeDQ',
+					type: 'integer',
+					description: 'Data quality code'
+				}, {
+					name: 'nameDQ',
+					type: 'String',
+					description: 'Data quality name'
+				}, {
+					name: 'descrDQ',
+					type: 'String',
+					description: 'Data quality description'
+				}]
+			}],
+			fields: [{
+				name: 'events',
+				type: 'Object => INHERITED'
+			}, {
+				name: 'service',
+				type: 'istsos.Service',
+			}, {
+				name: 'codeDQ',
+				type: 'integer',
+			}, {
+				name: 'nameDQ',
+				type: 'String',
+			}, {
+				name: 'descrDQ',
+				type: 'String',
+			}],
+			methods: [{
+				name: 'fireEvent',
+				paramList: 'eventType, response',
+				params: [{
+					name: 'eventType',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'response',
+					type: 'Object | *',
+					description: 'Data that will be passed to the handler',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'on',
+				paramList: 'event, callback',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'callback',
+					type: 'String',
+					description: 'Event handler callback function',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'once',
+				paramList: 'event, callback',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'callback',
+					type: 'String',
+					description: 'Event handler callback function',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'off',
+				paramList: 'event, callback',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'callback',
+					type: 'String',
+					description: 'Event handler callback function',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'unlistenAll',
+				paramList: '',
+				params: [],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'getDataQualityJSON',
+				paramList: '',
+				params: [],
+				return: 'Object',
+				fires: ''
+			}, {
+				name: 'updateDataQuality',
+				paramList: 'options',
+				params: [{
+					name: 'options',
+					type: 'Object',
+					description: 'Data quality configuration object',
+					props: [{
+						name: 'codeDQ',
+						type: 'integer',
+						description: 'New data quality code'
+					}, {
+						name: 'nameDQ',
+						type: 'String',
+						description: 'New data quality name'
+					}, {
+						name: 'descrDQ',
+						type: 'String',
+						description: 'New data quality description'
+					}]
+				}],
+				return: 'Promise',
+				fires: '\'UPDATE_DATAQUALITY\''
+			}, {
+				name: 'deleteDataQuality',
+				paramList: '',
+				params: [],
+				return: 'Promise',
+				fires: '\'DELETE_DATAQUALITY\''
 			}]
 		}, {
 			name: 'istsos.UnitOfMeasure',
-			description: 'Here goes class description',
+			superClass: 'istsos.EventEmitter',
+			description: 'Class for instantiating istsos.UnitOfMeasure objects, which contain information about measurment units',
 			params: [{
 				param: 'options',
 				type: 'Object',
-				description: 'param description',
-				props: {}
+				description: 'Observed property configuration object',
+				props: [{
+					name: 'service',
+					type: 'istsos.Service',
+					description: 'istsos.Service instance'
+				}, {
+					name: 'name',
+					type: 'String',
+					description: 'Unit of measure name'
+				}, {
+					name: 'description',
+					type: 'String',
+					description: 'Unit of measure description. If not provided, value "" will be used.'
+				}]
+			}],
+			fields: [{
+				name: 'events',
+				type: 'Object => INHERITED',
+			}, {
+				name: 'service',
+				type: 'istsos.Service',
+			}, {
+				name: 'name',
+				type: 'String',
+			}, {
+				name: 'description',
+				type: 'String',
+			}, {
+				name: 'proceduresIncluded',
+				type: 'Array<istsos.Procedure | istsos.VirtualProcedure>',
+			}],
+			methods: [{
+				name: 'fireEvent',
+				paramList: 'eventType, response',
+				params: [{
+					name: 'eventType',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'response',
+					type: 'Object | *',
+					description: 'Data that will be passed to the handler',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'on',
+				paramList: 'event, callback',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'callback',
+					type: 'String',
+					description: 'Event handler callback function',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'once',
+				paramList: 'event, callback',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'callback',
+					type: 'String',
+					description: 'Event handler callback function',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'off',
+				paramList: 'event, callback',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'callback',
+					type: 'String',
+					description: 'Event handler callback function',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'unlistenAll',
+				paramList: '',
+				params: [],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'updateProceduresIncluded',
+				paramList: '',
+				params: [],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'getUomJSON',
+				paramList: '',
+				params: [],
+				return: 'Object',
+				fires: ''
+			}, {
+				name: 'updateUom',
+				paramList: 'options',
+				params: [{
+					name: 'options',
+					type: 'Object',
+					description: 'Unit of measure configuration object',
+					props: [, {
+						name: 'name',
+						type: 'String',
+						description: 'New unit of measure name'
+					}, {
+						name: 'description',
+						type: 'String',
+						description: 'New unit of measure description.'
+					}]
+				}],
+				return: 'Promise',
+				fires: '\'UPDATE_UOM\''
+			}, {
+				name: 'deleteUom',
+				paramList: '',
+				params: [],
+				return: 'Promise',
+				fires: '\'DELETE_UOM\''
 			}]
 		}, {
 			name: 'istsos.EventTypes',
-			description: 'Here goes class description',
-			params: [{
-				param: 'options',
-				type: 'Object',
-				description: 'param description',
-				props: {}
-			}]
+			eventTypes: true
 		}, {
 			name: 'istsos.EventEmitter',
+			superClass: '',
 			description: 'Here goes class description',
-			params: [{
-				param: 'options',
+			params: [],
+			fields: [{
+				name: 'events',
 				type: 'Object',
-				description: 'param description',
-				props: {}
+			}],
+			methods: [{
+				name: 'fire',
+				paramList: 'event, data',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'data',
+					type: 'Object | *',
+					description: 'Data that will be passed to the handler',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'on',
+				paramList: 'event, callback',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'callback',
+					type: 'String',
+					description: 'Event handler callback function',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'once',
+				paramList: 'event, callback',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'callback',
+					type: 'String',
+					description: 'Event handler callback function',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'off',
+				paramList: 'event, callback',
+				params: [{
+					name: 'event',
+					type: 'String',
+					description: 'Event type, that must match one of the supported types in istsos.EventTypes object',
+					props: []
+				}, {
+					name: 'callback',
+					type: 'String',
+					description: 'Event handler callback function',
+					props: []
+				}],
+				return: 'void',
+				fires: ''
+			}, {
+				name: 'unlistenAll',
+				paramList: '',
+				params: [],
+				return: 'void',
+				fires: ''
 			}]
 		}, {
 			name: 'istsos.HttpAPI',
-			description: 'Here goes class description',
-			params: [{
-				param: 'options',
-				type: 'Object',
-				description: 'param description',
-				props: {}
-			}]
+			http: true,
+
+			methods: []
 		}]
 
 		list.goTo = function(state, data) {
