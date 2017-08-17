@@ -6,21 +6,95 @@
 	<p>
 		Developers can use this library to acquire sensor observation data from IstSOS server and publish it on the Web.
 	</p>
-	<h3 class="home-h3"><strong>2. Installation </strong><span class="text-danger glyphicon glyphicon-asterisk"></span><span class="text-danger">not ready yet</span></h3>
+	<h3 class="home-h3"><strong>2. Installation </strong></h3>
 
 	<p>Install the library using npm:</p>
 	<br/>
-	<code class="home-code">npm install istsos-javascript-core --save</code>
-	<br/>
+	<pre class="home-code">npm install istsos-javascript-core --save</pre>
 	<br/>
 	<p>Or clone the repository:</p>
 	<br/>
-	<code class="home-code">git clone https://github.com/istSOS/javascript-core.git</code>
+	<pre class="home-code">git clone https://github.com/istSOS/javascript-core.git</pre>
 	<br/>
-	<br/>
-	<!-- <h3 class="home-h3"><strong>3. Example</strong></h3>
-	<p>
+	<h3 class="home-h3"><strong>3. Example</strong></h3>
 
-	</p>
-	<h3 class="home-h3"><strong>4. Links</strong></h3> -->
+	<pre class="home-code">
+			<span class="text-danger">var</span> <span class="text-primary">container</span> = <span class="text-danger">new</span> istsos.ServerContainer();
+	</pre>
+	<br/>
+	<pre class="home-code">
+			<span class="text-danger">var</span> <span class="text-primary">server</span> = <span class="text-danger">new</span> istsos.Server({<br/>
+				&nbsp;&nbsp;&nbsp;<span class="text-warning">name</span>: 'test',<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">url</span>: 'http://istsos.org/istsos/'<br/>
+			});
+	</pre>
+	<br/>
+	<pre class="home-code">
+			<span class="text-danger">var</span> <span class="text-primary">db</span> = <span class="text-danger">new</span> istsos.Database({<br/>
+				&nbsp;&nbsp;&nbsp;<span class="text-warning">dbname</span>: 'istsos',<br/>
+				&nbsp;&nbsp;&nbsp;<span class="text-warning">host</span>: 'localhost',<br/>
+				&nbsp;&nbsp;&nbsp;<span class="text-warning">user</span>: 'postgres',<br/>
+				&nbsp;&nbsp;&nbsp;<span class="text-warning">password</span>: 'postgres',<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">port</span>: 5432<br/>
+			});
+	</pre>
+	<br/>
+	<pre class="home-code">
+			<span class="text-danger">var</span> <span class="text-primary">service</span> = <span class="text-danger">new</span> istsos.Service({<br/>
+				&nbsp;&nbsp;&nbsp;<span class="text-warning">name</span>: 'demo',<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">server</span>: server,<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">opt_db</span>: db<br/>
+			});
+	</pre>
+	<br/>
+	<pre class="home-code">
+			<span class="text-danger">var</span> <span class="text-primary">offering</span> = <span class="text-danger">new</span> istsos.Offering({<br/>
+				&nbsp;&nbsp;&nbsp;<span class="text-warning">offeringName</span>: 'temporary',<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">service</span>: service,<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">active</span>: <span class="text-primary">true</span><br/>
+			});
+	</pre>
+	<br/>
+	<pre class="home-code">
+			<span class="text-danger">var</span> <span class="text-primary">procedure</span> = <span class="text-danger">new</span> istsos.Service({<br/>
+				&nbsp;&nbsp;&nbsp;<span class="text-warning">name</span>: 'BELLINZONA',<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">service</span>: service,<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">foi_name</span>: 'test',<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">epsg</span>: 3857,<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">x</span>: 55,<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">y</span>: 55,<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">z</span>: 55,<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">outputs</span>: [],<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">sensorType</span>: 'insitu-fixed-point'<br/>
+			});
+	</pre>
+	<br/>
+	<pre class="home-code">
+			<span class="text-danger">var</span> <span class="text-primary">beginTime</span> = <span class="text-danger">new</span> istsos.Service({<br/>
+				&nbsp;&nbsp;&nbsp;<span class="text-warning">name</span>: 'BELLINZONA',<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">service</span>: service,<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">foi_name</span>: 'test',<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">epsg</span>: 3857,<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">x</span>: 55,<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">y</span>: 55,<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">z</span>: 55,<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">outputs</span>: [],<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">sensorType</span>: 'insitu-fixed-point'<br/>
+			});
+	</pre>
+	<br/>
+	<pre class="home-code">
+			<span class="text-danger">var</span> <span class="text-primary">endTime</span> = <span class="text-danger">new</span> istsos.Service({<br/>
+				&nbsp;&nbsp;&nbsp;<span class="text-warning">name</span>: 'BELLINZONA',<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">service</span>: service,<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">foi_name</span>: 'test',<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">epsg</span>: 3857,<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">x</span>: 55,<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">y</span>: 55,<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">z</span>: 55,<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">outputs</span>: [],<br/>
+			   &nbsp;&nbsp;&nbsp;<span class="text-warning">sensorType</span>: 'insitu-fixed-point'<br/>
+			});
+	</pre>
+	<!-- <h3 class="home-h3"><strong>4. Links</strong></h3> -->
 </div>

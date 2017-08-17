@@ -10,8 +10,11 @@
     "angular-ui-router": "^1.0.3",
     "bootstrap": "^3.3.7"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "http-server": "^0.10.0"
+  },
   "scripts": {
+    "start": "node node_modules/.bin/http-server -a localhost -p 9010 -c-1",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
