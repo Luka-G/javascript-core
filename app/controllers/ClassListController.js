@@ -1414,7 +1414,7 @@ angular.module('app')
 						type: 'Array<istsos.ObservedProperty>',
 						description: 'Array of istsos.ObservedProperty instances'
 					}, {
-						name: 'beginTime',
+						name: 'begin',
 						type: 'istsos.Date | String',
 						description: 'istsos.Date instance or date in ISO 8601 String format'
 					}, {
@@ -1466,7 +1466,7 @@ angular.module('app')
 						type: 'Array<istsos.ObservedProperty>',
 						description: 'Array of istsos.ObservedProperty instances'
 					}, {
-						name: 'beginTime',
+						name: 'begin',
 						type: 'istsos.Date | String',
 						description: 'istsos.Date instance or date in ISO 8601 String format'
 					}, {
@@ -1497,7 +1497,7 @@ angular.module('app')
 						type: 'Array<istsos.ObservedProperty>',
 						description: 'Array of istsos.ObservedProperty instances'
 					}, {
-						name: 'beginTime',
+						name: 'begin',
 						type: 'istsos.Date | String',
 						description: 'istsos.Date instance or date in ISO 8601 String format'
 					}, {
